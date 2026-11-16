@@ -1,0 +1,66 @@
+
+import {
+  register,
+  login,
+  logout,
+  watchAuth
+} from "./auth.js";
+
+const status = document.getElementById("auth-status");
+const emailDisplay = document.getElementById("user-email");
+
+function showMessage(message) {
+  if (status) status.textContent = message;
+}
+
+// Inscription
+document.getElementById("register-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
+
+  try {
+    await register(email, password);
+    showMessage("Compte créé avec succès !");
+  } catch (error) {
+    showMessage(error.message);
+  }
+});
+
+// Connexion
+document.getElementById("login-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  try {
+    await login(email, password);
+    showMessage("Connexion réussie !");
+  } catch (error) {
+    showMessage(error.message);
+  }
+});
+
+// Déconnexion
+document.getElementById("logout-btn")?.addEventListener("click", async () => {
+  try {
+    await logout();
+    showMessage("Déconnexion réussie.");
+  } catch (error) {
+    showMessage(error.message);
+  }
+});
+
+// Suivre l'état de connexion
+watchAuth((user) => {
+  if (emailDisplay) {
+    emailDisplay.textContent = user ? user.email : "Visiteur";
+  }
+
+  const logoutButton = document.getElementById("logout-btn");
+  if (logoutButton) {
+    logoutButton.hidden = !user;
+  }
+});
