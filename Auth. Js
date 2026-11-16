@@ -1,0 +1,43 @@
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+import { auth } from "./firebase.js";
+
+// Inscription
+export async function register(email, password) {
+  try {
+    const result = await createUserWithEmailAndPassword(
+      auth, email, password
+    );
+    return result.user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Connexion
+export async function login(email, password) {
+  try {
+    const result = await signInWithEmailAndPassword(
+      auth, email, password
+    );
+    return result.user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// Déconnexion
+export async function logout() {
+  await signOut(auth);
+}
+
+// Surveillance de la connexion
+export function watchAuth(callback) {
+  return onAuthStateChanged(auth, callback);
+}
