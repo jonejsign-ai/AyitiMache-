@@ -6,14 +6,23 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-import { auth } from "./firebase.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-// Inscription
+import { auth, db } from "./firebase.js";
+
+// Inscription et création du profil
 export async function register(email, password) {
   try {
     const result = await createUserWithEmailAndPassword(
       auth, email, password
     );
+
+    await setDoc(doc(db, "users", result.user.uid), {
+      email: result.user.email,
+      role: "buyer",
+      createdAt: serverTimestamp()
+    });
+
     return result.user;
   } catch (error) {
     throw new Error(error.message);
