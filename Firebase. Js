@@ -1,0 +1,19 @@
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD-Ma9FE8gj0Er7Kk37AqByG-4Bdmv-6JQ",
+  authDomain: "ayitimache-384cb.firebaseapp.com",
+  projectId: "ayitimache-384cb",
+  storageBucket: "ayitimache-384cb.firebasestorage.app",
+  messagingSenderId: "952025409271",
+  appId: "1:952025409271:web:bc7a99011a35c35fc0d5f2",
+  measurementId: "G-3D14Y5VHJ8"
+};
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
